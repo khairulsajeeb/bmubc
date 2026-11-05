@@ -1,0 +1,72 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "admins": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false,
+        ".validate": "newData.isBoolean()"
+      }
+    },
+    "blood_requests": {
+      ".read": true,
+      "$id": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true || (!data.exists() && newData.exists() && newData.child('status').val() === 'Pending')",
+        ".validate": "newData.hasChildren(['id', 'patientName', 'bloodGroup', 'hospitalName', 'contactNumber', 'note', 'status', 'timestamp'])",
+        "id": { ".validate": "newData.isString() && newData.val() === $id" },
+        "patientName": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120" },
+        "bloodGroup": { ".validate": "newData.isString() && (newData.val() === 'A+' || newData.val() === 'A-' || newData.val() === 'B+' || newData.val() === 'B-' || newData.val() === 'O+' || newData.val() === 'O-' || newData.val() === 'AB+' || newData.val() === 'AB-')" },
+        "hospitalName": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200" },
+        "contactNumber": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+        "note": { ".validate": "newData.isString() && newData.val().length <= 2000" },
+        "status": { ".validate": "newData.isString() && (newData.val() === 'Pending' || newData.val() === 'Approved' || newData.val() === 'Fulfilled' || newData.val() === 'Cancelled')" },
+        "timestamp": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    },
+    "donor_applications": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).val() === true",
+      "$id": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true || (!data.exists() && newData.exists() && newData.child('status').val() === 'pending')",
+        ".validate": "newData.hasChildren(['id', 'fullName', 'bloodGroup', 'phoneNumber', 'location', 'status', 'timestamp'])",
+        "id": { ".validate": "newData.isString() && newData.val() === $id" },
+        "fullName": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120" },
+        "bloodGroup": { ".validate": "newData.isString() && (newData.val() === 'A+' || newData.val() === 'A-' || newData.val() === 'B+' || newData.val() === 'B-' || newData.val() === 'O+' || newData.val() === 'O-' || newData.val() === 'AB+' || newData.val() === 'AB-')" },
+        "phoneNumber": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+        "location": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200" },
+        "status": { ".validate": "newData.isString() && (newData.val() === 'pending' || newData.val() === 'approved' || newData.val() === 'rejected')" },
+        "timestamp": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    },
+    "donors": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).val() === true",
+      "$id": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true",
+        ".validate": "newData.hasChildren(['id', 'fullName', 'bloodGroup', 'phoneNumber', 'location', 'timestamp'])",
+        "id": { ".validate": "newData.isString() && newData.val() === $id" },
+        "fullName": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120" },
+        "bloodGroup": { ".validate": "newData.isString() && (newData.val() === 'A+' || newData.val() === 'A-' || newData.val() === 'B+' || newData.val() === 'B-' || newData.val() === 'O+' || newData.val() === 'O-' || newData.val() === 'AB+' || newData.val() === 'AB-')" },
+        "phoneNumber": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 40" },
+        "location": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200" },
+        "timestamp": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    },
+    "blogs": {
+      ".read": true,
+      "$id": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true",
+        ".validate": "newData.hasChildren(['id', 'title', 'coverImageUrl', 'body', 'author', 'timestamp'])",
+        "id": { ".validate": "newData.isString() && newData.val() === $id" },
+        "title": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 200" },
+        "coverImageUrl": { ".validate": "newData.isString() && newData.val().length <= 2000" },
+        "body": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 20000" },
+        "author": { ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 120" },
+        "timestamp": { ".validate": "newData.isNumber()" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
