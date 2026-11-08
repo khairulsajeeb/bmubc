@@ -178,7 +178,7 @@
 
   function header() {
     return `<header class="topbar"><div class="topbar-inner">
-      ${link("/", `<span class="brand-mark">${icon("droplets")}</span><span>BloodLink</span>`, "brand")}
+      ${link("/", `<span class="brand-mark">${icon("droplets")}</span><span>BMU Blood Cell</span>`, "brand")}
       <nav class="nav-links" aria-label="Main navigation">${navItems.map((item) => link(item.path, escapeHtml(item.label), state.route === item.path ? "active" : "")).join("")}</nav>
       <div class="nav-actions">
         ${link("/admin", `${icon("shield-check")} Admin`, "btn btn-outline btn-small desktop-action")}
@@ -196,9 +196,9 @@
 
   function footer() {
     return `<footer class="footer"><div class="footer-inner">
-      ${link("/", `<span class="brand-mark">${icon("droplets")}</span><span>BloodLink</span>`, "brand")}
+      ${link("/", `<span class="brand-mark">${icon("droplets")}</span><span>BMU Blood Cell</span>`, "brand")}
       <span>Connecting generous donors with people who need them. Every drop matters.</span>
-      <span>© ${new Date().getFullYear()} BloodLink</span>
+      <span>© ${new Date().getFullYear()} BMU Blood Cell</span>
     </div></footer>`;
   }
 
